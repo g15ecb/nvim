@@ -57,3 +57,5 @@ let g:ackprg = 'ag --vimgrep'
 highlight Pmenu ctermfg=15 ctermbg=0 guifg=#000000 guibg=#efefef
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+
+autocmd FileType c ClangFormatAutoEnable
