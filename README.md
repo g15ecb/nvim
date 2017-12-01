@@ -10,3 +10,9 @@ curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
 ```
 pip3 install --user neovim psutil setproctitle
 ```
+
+For tmux I reduce the escape time to something small, otherwise a double ESC is required to enter normal mode.
+
+```
+set escape-time 10
+```
