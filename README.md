@@ -1,0 +1,12 @@
+```
+ln -s init.vim ~/.config/nvim/init.vim
+```
+
+```
+curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
+    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+```
+
+```
+pip3 install --user neovim psutil setproctitle
+```
