@@ -32,6 +32,13 @@ Plug 'wannesm/wmgraphviz.vim'
 Plug 'rust-lang/rust.vim'
 Plug 'jlanzarotta/bufexplorer'
 Plug 'roxma/nvim-completion-manager'
+Plug 'rust-lang/rust.vim'
+Plug 'racer-rust/vim-racer'
+Plug 'roxma/nvim-cm-racer'
+Plug 'Shougo/neosnippet'
+Plug 'Shougo/neosnippet-snippets'
+Plug 'fixdpt/tup-vim'
+Plug 'pboettch/vim-cmake-syntax'
 call plug#end()
 
 let mapleader = ";"
@@ -58,4 +65,13 @@ highlight Pmenu ctermfg=15 ctermbg=0 guifg=#000000 guibg=#efefef
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
-autocmd FileType c ClangFormatAutoEnable
+" Formatting
+let g:clang_format#auto_format=1
+let g:rustfmt_autosave = 1
+
+imap <expr> <CR>  (pumvisible() ?  "\<c-y>\<Plug>(expand_or_nl)" : "\<CR>")
+imap <expr> <Plug>(expand_or_nl) (cm#completed_is_snippet() ? "\<C-k>":"\<CR>")
+
+" license stuff
+au bufnewfile *.c so $HOME/.config/nvim/c-header.txt
+au bufnewfile *.h so $HOME/.config/nvim/c-header.txt
