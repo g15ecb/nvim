@@ -33,6 +33,9 @@ Plug 'roxma/nvim-completion-manager'
 Plug 'pboettch/vim-cmake-syntax'
 Plug 'fatih/vim-go'
 Plug 'roxma/ncm-clang'
+Plug 'garbas/vim-snipmate'
+Plug 'marcweber/vim-addon-mw-utils'
+Plug 'honza/vim-snippets'
 call plug#end()
 
 let mapleader = ";"
@@ -67,6 +70,9 @@ let g:rustfmt_autosave = 1
 imap <expr> <CR>  (pumvisible() ?  "\<c-y>\<Plug>(expand_or_nl)" : "\<CR>")
 imap <expr> <Plug>(expand_or_nl) (cm#completed_is_snippet() ? "\<C-k>":"\<CR>")
 
+let g:go_template_autocreate = 0
+
 " license stuff
 au bufnewfile *.c so $HOME/.config/nvim/c-header.txt
 au bufnewfile *.h so $HOME/.config/nvim/c-header.txt
+au bufnewfile *.go so $HOME/.config/nvim/c-header.txt
