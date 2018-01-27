@@ -27,18 +27,12 @@ Plug 'vim-airline/vim-airline'
 Plug 'airblade/vim-gitgutter'
 Plug 'haya14busa/incsearch.vim'
 Plug 'godlygeek/tabular'
-Plug 'cespare/vim-toml'
-Plug 'wannesm/wmgraphviz.vim'
-Plug 'rust-lang/rust.vim'
 Plug 'jlanzarotta/bufexplorer'
+Plug 'kien/ctrlp.vim'
 Plug 'roxma/nvim-completion-manager'
-Plug 'rust-lang/rust.vim'
-Plug 'racer-rust/vim-racer'
-Plug 'roxma/nvim-cm-racer'
-Plug 'Shougo/neosnippet'
-Plug 'Shougo/neosnippet-snippets'
-Plug 'fixdpt/tup-vim'
 Plug 'pboettch/vim-cmake-syntax'
+Plug 'fatih/vim-go'
+Plug 'roxma/ncm-clang'
 call plug#end()
 
 let mapleader = ";"
@@ -48,7 +42,8 @@ nnoremap <Leader>d :bd<CR>
 nnoremap <Leader>w :w<CR>
 nnoremap <Leader>o :only<CR>
 nnoremap <Leader>q :q<CR>
-nnoremap <Leader>b :BufExplorer<CR>
+"nnoremap <Leader>b :BufExplorer<CR>
+nnoremap <Leader>b :CtrlPBuffer<CR>
 nnoremap <Leader>m :make<CR>
 nnoremap <Leader>a :call CurtineIncSw()<CR>
 nnoremap <Leader>t :TagbarOpenAutoClose<CR>

@@ -1,5 +1,6 @@
 ```
 ln -s init.vim ~/.config/nvim/init.vim
+ln -s c-header.txt ~/.config/nvim/c-header.txt
 ```
 
 ```
