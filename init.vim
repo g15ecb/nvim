@@ -18,24 +18,21 @@ autocmd FileType make setlocal noexpandtab
 
 call plug#begin()
 " General
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'easymotion/vim-easymotion'
 Plug 'airblade/vim-gitgutter'
 Plug 'haya14busa/incsearch.vim'
 Plug 'vim-airline/vim-airline'
+Plug 'Valloric/YouCompleteMe'
 
 " Programming
 Plug 'pboettch/vim-cmake-syntax'
 Plug 'rhysd/vim-clang-format'
 Plug 'ericcurtin/CurtineIncSw.vim'
 Plug 'w0rp/ale'
-Plug 'sebastianmarkow/deoplete-rust'
-Plug 'zchee/deoplete-clang'
-Plug 'derekwyatt/vim-scala'
+Plug 'neapel/vim-java-bytecode'
 call plug#end()
-let g:deoplete#enable_at_startup = 1
 
 let mapleader = ";"
 nnoremap <Leader>f :FZF<CR>
@@ -65,7 +62,8 @@ let g:clang_format#auto_format=1
 " license stuff
 au bufnewfile *.c so $HOME/.config/nvim/c-header.txt
 au bufnewfile *.h so $HOME/.config/nvim/c-header.txt
-au bufnewfile *.js so $HOME/.config/nvim/c-header.txt
+au bufnewfile *.java so $HOME/.config/nvim/c-header.txt
 
-let g:deoplete#sources#rust#rust_source_path='/Users/gb/rust-src/src'
-let g:deoplete#sources#rust#racer_binary='/Users/gb/.cargo/bin/racer'
+au BufNewFile,BufRead *.javap setf java-bytecode
+
+let g:ycm_global_ycm_extra_conf = '~/.config/nvim/plugged/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
