@@ -16,6 +16,7 @@ set number
 set termguicolors
 set directory^=$HOME/swap
 autocmd FileType make setlocal noexpandtab
+filetype plugin on
 
 " =============================================================================
 " Plugins
@@ -36,6 +37,10 @@ Plug 'ericcurtin/CurtineIncSw.vim'
 Plug 'w0rp/ale'
 Plug 'neapel/vim-java-bytecode'
 Plug 'fatih/vim-go'
+Plug 'slashmili/alchemist.vim'
+Plug 'elixir-editors/vim-elixir'
+Plug 'flowtype/vim-flow'
+Plug 'JesseKPhillips/d.vim'
 call plug#end()
 
 " =============================================================================
@@ -66,7 +71,7 @@ highlight Pmenu ctermfg=15 ctermbg=0 guifg=#000000 guibg=#efefef
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 set completeopt-=preview
-let g:ycm_semantic_triggers =  { 'java,jsp' : ['.'], }
+let g:ycm_semantic_triggers =  { 'js,java,jsp' : ['.'], }
 
 " =============================================================================
 " Formatting (C++,C,Java)
@@ -82,6 +87,8 @@ au BufNewFile *.java Mit
 au BufNewFile *.h Mit
 au BufNewFile *.c Mit
 au BufNewFile *.go Mit
+au BufNewFile *.d Mit
+au BufNewFile *.js Mit
 
 " =============================================================================
 " Java 
@@ -97,3 +104,5 @@ let g:ycm_global_ycm_extra_conf = '~/.config/nvim/plugged/YouCompleteMe/third_pa
 " Go
 " =============================================================================
 let g:go_template_autocreate = 0
+
+let g:ycm_python_binary_path = '/usr/local/bin/python3'
