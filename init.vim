@@ -41,6 +41,9 @@ Plug 'slashmili/alchemist.vim'
 Plug 'elixir-editors/vim-elixir'
 Plug 'flowtype/vim-flow'
 Plug 'JesseKPhillips/d.vim'
+Plug 'derekwyatt/vim-scala'
+Plug 'sirver/ultisnips'
+Plug 'honza/vim-snippets'
 call plug#end()
 
 " =============================================================================
@@ -49,7 +52,8 @@ call plug#end()
 let mapleader = ";"
 nnoremap <Leader>f :FZF<CR>
 nnoremap <Leader>e :e 
-nnoremap <Leader>t :MerlinTypeOf<CR>
+nnoremap <Leader>t :cd %:p:h <CR> :! javac %:t<CR> :! java %:t:r<CR>
+"nnoremap <Leader>t :MerlinTypeOf<CR>
 nnoremap <Leader>d :bd<CR>
 nnoremap <Leader>w :w<CR>
 nnoremap <Leader>o :only<CR>
@@ -77,6 +81,9 @@ let g:ycm_semantic_triggers =  { 'js,java,jsp' : ['.'], }
 " Formatting (C++,C,Java)
 " =============================================================================
 let g:clang_format#auto_format=1
+let g:clang_format#code_style = "llvm"
+let g:clang_format#style_options = {
+            \ "ColumnLimit" : "80"}
 
 " =============================================================================
 " License 
@@ -106,3 +113,8 @@ let g:ycm_global_ycm_extra_conf = '~/.config/nvim/plugged/YouCompleteMe/third_pa
 let g:go_template_autocreate = 0
 
 let g:ycm_python_binary_path = '/usr/local/bin/python3'
+
+let g:UltiSnipsExpandTrigger="<c-k>"
+let g:UltiSnipsJumpForwardTrigger="<c-l>"
+let g:UltiSnipsJumpBackwardTrigger="<c-p>"
+
