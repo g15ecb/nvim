@@ -25,18 +25,13 @@ Plug 'easymotion/vim-easymotion'
 Plug 'vim-airline/vim-airline'
 Plug 'Valloric/YouCompleteMe'
 Plug 'w0rp/ale'
-Plug 'nkouevda/vim-thrift-syntax'
 Plug 'vim-pandoc/vim-pandoc'
 Plug 'vim-pandoc/vim-pandoc-syntax' 
 Plug 'mileszs/ack.vim'
-Plug 'fatih/vim-go'
 Plug 'majutsushi/tagbar'
 Plug 'kshenoy/vim-signature' " nice management of marks
 Plug 'airblade/vim-rooter'
-Plug 'rust-lang/rust.vim'
 Plug 'xianzhon/vim-code-runner'
-Plug 'metakirby5/codi.vim'
-Plug 'luochen1990/rainbow'
 Plug 'inside/vim-search-pulse'
 call plug#end()
 
@@ -58,6 +53,7 @@ nnoremap <Leader>h :YcmCompleter GetDoc<CR>
 nnoremap <Leader>r :YcmCompleter RefactorRename<space>
 nnoremap <Leader>u :YcmCompleter GoToReferences<CR>
 nnoremap <Leader>j :YcmCompleter GetType<CR>
+nnoremap <Leader>l :ALEDetail<CR>
 nnoremap <Leader>a :Ack<Space>-w<Space><cword><CR>
 nnoremap <C-j> :wincmd j<CR> 
 nnoremap <C-k> :wincmd k<CR> 
@@ -67,7 +63,6 @@ highlight Pmenu ctermfg=15 ctermbg=0 guifg=#000000 guibg=#efefef
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 set completeopt-=preview
-let g:ycm_python_binary_path = '/usr/local/bin/python3'
 
 " ALE
 let g:ale_fixers = {
@@ -76,8 +71,6 @@ let g:ale_fixers = {
 \   'h': ['clang-format'],
 \   'c++': ['clang-format'],
 \   'cpp': ['clang-format'],
-\   'scala': ['scalafmt'],
-\   'ocaml': ['ocamlformat'],
 \   'python': ['isort', 'black'],
 \}
 let g:ale_fix_on_save = 1
@@ -94,17 +87,7 @@ if executable('ag')
   let g:ackprg = "ag -w --ignore='*Test*.java' --ignore='*.sql' --ignore='*.htm*' --ignore='*.xml' --vimgrep"
 endif
 
-" Go 
-let g:go_template_autocreate = 0
-let g:go_fmt_autosave = 1
-
-let g:ycm_rust_src_path = '/Users/gb/rust/src'
-" Note: this is here purely because I want YCM in markdown+pandoc buffers,
-" which are by default blacklisted for some reason.
-let g:ycm_filetype_blacklist={'unite': 1, 'tagbar': 1, 'qf': 1, 'vimwiki': 1, 'text': 1, 'infolog': 1, 'mail': 1}
 let g:pandoc#modules#disabled = ["folding"]
-
-let g:rustfmt_autosave = 1
 
 " Make airline less cluttered.
 let g:airline_section_b='' " vcs info
@@ -117,11 +100,10 @@ let g:airline_section_warning=''
 " make the gutter same colour as lines
 highlight clear SignColumn
 
-let g:rooter_patterns = ['Rakefile', 'gradlew', '.git/']
+let g:rooter_patterns = ['makefile', 'Rakefile', 'gradlew', '.git/']
 
 let g:CodeRunnerCommandMap = {
       \ 'java' : 'javac -Xlint:all $fileName && java -ea $fileNameWithoutExt',
-      \ 'rust' : 'rustc $fileName && ./$fileNameWithoutExt',
       \ 'python' : 'python3 $fileName',
       \}
 let g:code_runner_output_window_size=10
@@ -136,12 +118,7 @@ if 'VIRTUAL_ENV' in os.environ:
   execfile(activate_this, dict(__file__=activate_this))
 EOF
 
-let g:codi#interpreters = {
-                   \ 'python': {
-                       \ 'bin': 'python3',
-                       \ 'prompt': '^\(>>>\|\.\.\.\) ',
-                       \ },
-                   \ }
+"highlight OverLength ctermbg=red ctermfg=0 guibg=#592929
+"match OverLength /\%81v.\+/
 
-let g:rainbow_active = 1
-
+let g:ycm_global_ycm_extra_conf = "/Users/gb/.config/nvim/plugged/YouCompleteMe/third_party/ycmd/.ycm_extra_conf.py"
