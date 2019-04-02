@@ -33,6 +33,8 @@ Plug 'kshenoy/vim-signature' " nice management of marks
 Plug 'airblade/vim-rooter'
 Plug 'xianzhon/vim-code-runner'
 Plug 'inside/vim-search-pulse'
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
 call plug#end()
 
 " =============================================================================
@@ -122,3 +124,5 @@ EOF
 "match OverLength /\%81v.\+/
 
 let g:ycm_global_ycm_extra_conf = "/Users/gb/.config/nvim/plugged/YouCompleteMe/third_party/ycmd/.ycm_extra_conf.py"
+
+let g:UltiSnipsExpandTrigger="<c-j>"
