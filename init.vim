@@ -35,6 +35,7 @@ Plug 'xianzhon/vim-code-runner'
 Plug 'inside/vim-search-pulse'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
+Plug 'rgrinberg/vim-ocaml'
 call plug#end()
 
 " =============================================================================
@@ -59,6 +60,12 @@ nnoremap <Leader>l :ALEDetail<CR>
 nnoremap <Leader>a :Ack<Space>-w<Space><cword><CR>
 nnoremap <C-j> :wincmd j<CR> 
 nnoremap <C-k> :wincmd k<CR> 
+" merlin
+nnoremap <Leader>mj :MerlinJump<CR>
+nnoremap <Leader>ml :MerlinLocate<CR>
+nnoremap <Leader>mo :MerlinOccurrences<CR>
+nnoremap <Leader>mr :MerlinRename<Space>
+nnoremap <Leader>mt :MerlinTypeOf<CR>
 
 " Completion (YCM)
 highlight Pmenu ctermfg=15 ctermbg=0 guifg=#000000 guibg=#efefef
@@ -74,6 +81,7 @@ let g:ale_fixers = {
 \   'c++': ['clang-format'],
 \   'cpp': ['clang-format'],
 \   'python': ['isort', 'black'],
+\   'ocaml': ['ocamlformat'],
 \}
 let g:ale_fix_on_save = 1
 let g:airline#extensions#ale#enabled = 1
@@ -126,3 +134,6 @@ EOF
 let g:ycm_global_ycm_extra_conf = "/Users/gb/.config/nvim/plugged/YouCompleteMe/third_party/ycmd/.ycm_extra_conf.py"
 
 let g:UltiSnipsExpandTrigger="<c-j>"
+
+let g:opamshare = substitute(system('opam config var share'),'\n$','','''')
+execute "set rtp+=" . g:opamshare . "/merlin/vim"
