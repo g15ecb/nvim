@@ -14,6 +14,10 @@ set termguicolors
 set directory^=$HOME/swap
 autocmd FileType make setlocal noexpandtab
 filetype plugin indent on
+set cursorline
+highlight clear CursorLine
+set background=dark
+highlight clear SignColumn " make the gutter same colour as lines
 
 " =============================================================================
 " Plugins
@@ -35,7 +39,6 @@ Plug 'xianzhon/vim-code-runner'
 Plug 'inside/vim-search-pulse'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
-Plug 'rgrinberg/vim-ocaml'
 call plug#end()
 
 " =============================================================================
@@ -60,18 +63,16 @@ nnoremap <Leader>l :ALEDetail<CR>
 nnoremap <Leader>a :Ack<Space>-w<Space><cword><CR>
 nnoremap <C-j> :wincmd j<CR> 
 nnoremap <C-k> :wincmd k<CR> 
-" merlin
-nnoremap <Leader>mj :MerlinJump<CR>
-nnoremap <Leader>ml :MerlinLocate<CR>
-nnoremap <Leader>mo :MerlinOccurrences<CR>
-nnoremap <Leader>mr :MerlinRename<Space>
-nnoremap <Leader>mt :MerlinTypeOf<CR>
 
 " Completion (YCM)
 highlight Pmenu ctermfg=15 ctermbg=0 guifg=#000000 guibg=#efefef
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 set completeopt-=preview
+" This will use some defaults so you don't need to provide compiler
+" information for single file hacks
+let g:ycm_global_ycm_extra_conf = "/Users/gb/.config/nvim/plugged/YouCompleteMe/third_party/ycmd/.ycm_extra_conf.py"
+let g:UltiSnipsExpandTrigger="<c-j>"
 
 " ALE
 let g:ale_fixers = {
@@ -81,25 +82,22 @@ let g:ale_fixers = {
 \   'c++': ['clang-format'],
 \   'cpp': ['clang-format'],
 \   'python': ['isort', 'black'],
-\   'ocaml': ['ocamlformat'],
 \}
 let g:ale_fix_on_save = 1
 let g:airline#extensions#ale#enabled = 1
 " to stop pep8 based linters from complaining as black uses 88 as line length
 let g:ale_python_black_options = '-l 79'
-set background=dark
 
-set cursorline
-highlight clear CursorLine
-
+" Ag
 if executable('ag')
   " w = match whole words
   let g:ackprg = "ag -w --ignore='*Test*.java' --ignore='*.sql' --ignore='*.htm*' --ignore='*.xml' --vimgrep"
 endif
 
+" Pandoc
 let g:pandoc#modules#disabled = ["folding"]
 
-" Make airline less cluttered.
+" Airline 
 let g:airline_section_b='' " vcs info
 let g:airline_section_x='' " filetype
 let g:airline_section_z='%{line("$")} : %{col(".")}'
@@ -107,11 +105,10 @@ let g:airline_section_z='%{line("$")} : %{col(".")}'
 let g:airline_section_error='' 
 let g:airline_section_warning=''
 
-" make the gutter same colour as lines
-highlight clear SignColumn
-
+" marker components to point out the root of a project
 let g:rooter_patterns = ['makefile', 'Rakefile', 'gradlew', '.git/']
 
+" Code runner
 let g:CodeRunnerCommandMap = {
       \ 'java' : 'javac -Xlint:all $fileName && java -ea $fileNameWithoutExt',
       \ 'python' : 'python3 $fileName',
@@ -127,13 +124,3 @@ if 'VIRTUAL_ENV' in os.environ:
   activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
   execfile(activate_this, dict(__file__=activate_this))
 EOF
-
-"highlight OverLength ctermbg=red ctermfg=0 guibg=#592929
-"match OverLength /\%81v.\+/
-
-let g:ycm_global_ycm_extra_conf = "/Users/gb/.config/nvim/plugged/YouCompleteMe/third_party/ycmd/.ycm_extra_conf.py"
-
-let g:UltiSnipsExpandTrigger="<c-j>"
-
-let g:opamshare = substitute(system('opam config var share'),'\n$','','''')
-execute "set rtp+=" . g:opamshare . "/merlin/vim"
