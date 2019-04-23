@@ -39,6 +39,7 @@ Plug 'xianzhon/vim-code-runner'
 Plug 'inside/vim-search-pulse'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
+Plug 'solarnz/thrift.vim'
 call plug#end()
 
 " =============================================================================
@@ -54,11 +55,11 @@ nnoremap <Leader>o :only<CR>
 nnoremap <Leader>q :q<CR>
 nnoremap <Leader>b :Buffers<CR>
 nnoremap <Leader>m :make<CR>
-nnoremap <Leader>g :YcmCompleter GoToDefinition<CR>
-nnoremap <Leader>h :YcmCompleter GetDoc<CR>
-nnoremap <Leader>r :YcmCompleter RefactorRename<space>
-nnoremap <Leader>u :YcmCompleter GoToReferences<CR>
-nnoremap <Leader>j :YcmCompleter GetType<CR>
+nnoremap <Leader>yg :YcmCompleter GoToDefinition<CR>
+nnoremap <Leader>yd :YcmCompleter GetDoc<CR>
+nnoremap <Leader>yr :YcmCompleter RefactorRename<space>
+nnoremap <Leader>yu :YcmCompleter GoToReferences<CR>
+nnoremap <Leader>yt :YcmCompleter GetType<CR>
 nnoremap <Leader>l :ALEDetail<CR>
 nnoremap <Leader>a :Ack<Space>-w<Space><cword><CR>
 nnoremap <C-j> :wincmd j<CR> 
