@@ -40,6 +40,7 @@ Plug 'inside/vim-search-pulse'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 Plug 'solarnz/thrift.vim'
+Plug 'aklt/plantuml-syntax'
 call plug#end()
 
 " =============================================================================
@@ -49,6 +50,7 @@ let mapleader = ";"
 nnoremap <Leader>f :FZF<CR>
 nnoremap <Leader>e :e 
 nnoremap <Leader>t :TagbarOpenAutoClose<CR>
+nnoremap <Leader>c :TOC<CR>
 nnoremap <Leader>d :bd<CR>
 nnoremap <Leader>w :w<CR>
 nnoremap <Leader>o :only<CR>
@@ -64,6 +66,7 @@ nnoremap <Leader>l :ALEDetail<CR>
 nnoremap <Leader>a :Ack<Space>-w<Space><cword><CR>
 nnoremap <C-j> :wincmd j<CR> 
 nnoremap <C-k> :wincmd k<CR> 
+nnoremap <Leader>r :%DB mysql://hive@granvil01-vm0.bdauto.wandisco.com/hive<CR>
 
 " Completion (YCM)
 highlight Pmenu ctermfg=15 ctermbg=0 guifg=#000000 guibg=#efefef
@@ -83,11 +86,14 @@ let g:ale_fixers = {
 \   'c++': ['clang-format'],
 \   'cpp': ['clang-format'],
 \   'python': ['isort', 'black'],
+\   'markdown': ['prettier'],
+\   'pandoc': ['prettier'],
 \}
 let g:ale_fix_on_save = 1
 let g:airline#extensions#ale#enabled = 1
 " to stop pep8 based linters from complaining as black uses 88 as line length
 let g:ale_python_black_options = '-l 79'
+let g:ale_javascript_prettier_options = '--prose-wrap always'
 
 " Ag
 if executable('ag')
@@ -101,10 +107,18 @@ let g:pandoc#modules#disabled = ["folding"]
 " Airline 
 let g:airline_section_b='' " vcs info
 let g:airline_section_x='' " filetype
-let g:airline_section_z='%{line("$")} : %{col(".")}'
+let g:airline_section_z='%{line("$")}:%{col(".")}'
+let g:airline_section_c='%t'
+let g:airline_section_y='' " file encoding
 " the below denote warnings etc that linters flag. 
 let g:airline_section_error='' 
 let g:airline_section_warning=''
+"let g:airline#extensions#tagbar#flags = 'f'
+let g:airline#extensions#tagbar#flags = 's'
+"let g:airline#extensions#tagbar#flags = 'p'
+" Tag bar stuff for airline
+let g:airline#extensions#tagbar#enabled = 1
+au VimEnter * let g:airline_section_x = airline#section#create_right(['tagbar']) | :AirlineRefresh
 
 " marker components to point out the root of a project
 let g:rooter_patterns = ['makefile', 'Rakefile', 'gradlew', '.git/']
@@ -113,6 +127,8 @@ let g:rooter_patterns = ['makefile', 'Rakefile', 'gradlew', '.git/']
 let g:CodeRunnerCommandMap = {
       \ 'java' : 'javac -Xlint:all $fileName && java -ea $fileNameWithoutExt',
       \ 'python' : 'python3 $fileName',
+      \ 'c' : 'clang -std=c11 $fileName -o $fileNameWithoutExt && ./$fileNameWithoutExt',
+      \ 'cpp' : 'clang++ -std=c++14 $fileName -o $fileNameWithoutExt && ./$fileNameWithoutExt',
       \}
 let g:code_runner_output_window_size=10
 
@@ -125,3 +141,29 @@ if 'VIRTUAL_ENV' in os.environ:
   activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
   execfile(activate_this, dict(__file__=activate_this))
 EOF
+
+au BufRead *.sql set filetype=mysql
+
+let g:tagbar_vertical=100
+
+" shortform abbreviations for the current mode
+let g:airline_mode_map = {
+      \ '__' : '-',
+      \ 'c'  : 'C',
+      \ 'i'  : 'I',
+      \ 'ic' : 'I',
+      \ 'ix' : 'I',
+      \ 'n'  : 'N',
+      \ 'ni' : 'N',
+      \ 'no' : 'N',
+      \ 'R'  : 'R',
+      \ 'Rv' : 'R',
+      \ 's'  : 'S',
+      \ 'S'  : 'S',
+      \ ''   : 'S',
+      \ 't'  : 'T',
+      \ 'v'  : 'V',
+      \ 'V'  : 'V',
+      \ }
+
+let g:plantuml_executable_script='/Users/gb/plantuml-custom'
