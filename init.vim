@@ -27,7 +27,6 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'easymotion/vim-easymotion'
 Plug 'vim-airline/vim-airline'
-Plug 'Valloric/YouCompleteMe'
 Plug 'w0rp/ale'
 Plug 'vim-pandoc/vim-pandoc'
 Plug 'vim-pandoc/vim-pandoc-syntax' 
@@ -37,10 +36,11 @@ Plug 'kshenoy/vim-signature' " nice management of marks
 Plug 'airblade/vim-rooter'
 Plug 'xianzhon/vim-code-runner'
 Plug 'inside/vim-search-pulse'
-Plug 'SirVer/ultisnips'
-Plug 'honza/vim-snippets'
+Plug 'Shougo/neosnippet.vim'
+Plug 'Shougo/neosnippet-snippets'
 Plug 'solarnz/thrift.vim'
 Plug 'aklt/plantuml-syntax'
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 call plug#end()
 
 " =============================================================================
@@ -69,14 +69,14 @@ nnoremap <C-k> :wincmd k<CR>
 nnoremap <Leader>r :%DB mysql://hive@granvil01-vm0.bdauto.wandisco.com/hive<CR>
 
 " Completion (YCM)
+let g:deoplete#enable_at_startup = 1
 highlight Pmenu ctermfg=15 ctermbg=0 guifg=#000000 guibg=#efefef
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 set completeopt-=preview
-" This will use some defaults so you don't need to provide compiler
-" information for single file hacks
-let g:ycm_global_ycm_extra_conf = "/Users/gb/.config/nvim/plugged/YouCompleteMe/third_party/ycmd/.ycm_extra_conf.py"
-let g:UltiSnipsExpandTrigger="<c-j>"
+imap <C-k>     <Plug>(neosnippet_expand_or_jump)
+smap <C-k>     <Plug>(neosnippet_expand_or_jump)
+xmap <C-k>     <Plug>(neosnippet_expand_target)
 
 " ALE
 let g:ale_fixers = {
@@ -131,16 +131,6 @@ let g:CodeRunnerCommandMap = {
       \ 'cpp' : 'clang++ -std=c++14 $fileName -o $fileNameWithoutExt && ./$fileNameWithoutExt',
       \}
 let g:code_runner_output_window_size=10
-
-"python with virtualenv support
-py << EOF
-import os
-import sys
-if 'VIRTUAL_ENV' in os.environ:
-  project_base_dir = os.environ['VIRTUAL_ENV']
-  activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
-  execfile(activate_this, dict(__file__=activate_this))
-EOF
 
 au BufRead *.sql set filetype=mysql
 
