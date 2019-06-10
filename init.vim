@@ -41,6 +41,13 @@ Plug 'Shougo/neosnippet-snippets'
 Plug 'solarnz/thrift.vim'
 Plug 'aklt/plantuml-syntax'
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'tpope/vim-dadbod'
+Plug 'autozimu/LanguageClient-neovim', {
+    \ 'branch': 'next',
+    \ 'do': 'bash install.sh',
+    \ }
+Plug 'rust-lang/rust.vim'
+Plug 'JesseKPhillips/d.vim'
 call plug#end()
 
 " =============================================================================
@@ -68,6 +75,10 @@ nnoremap <C-j> :wincmd j<CR>
 nnoremap <C-k> :wincmd k<CR> 
 nnoremap <Leader>r :%DB mysql://hive@granvil01-vm0.bdauto.wandisco.com/hive<CR>
 
+nnoremap <Leader>lr :call LanguageClient#textDocument_rename()<CR>
+nnoremap <Leader>ld :call LanguageClient#textDocument_definition()<CR>
+nnoremap <Leader>lh :call LanguageClient#textDocument_hover()<CR>
+
 " Completion (YCM)
 let g:deoplete#enable_at_startup = 1
 highlight Pmenu ctermfg=15 ctermbg=0 guifg=#000000 guibg=#efefef
@@ -88,6 +99,7 @@ let g:ale_fixers = {
 \   'python': ['isort', 'black'],
 \   'markdown': ['prettier'],
 \   'pandoc': ['prettier'],
+\   'rust': ['rustfmt'],
 \}
 let g:ale_fix_on_save = 1
 let g:airline#extensions#ale#enabled = 1
@@ -157,3 +169,8 @@ let g:airline_mode_map = {
       \ }
 
 let g:plantuml_executable_script='/Users/gb/plantuml-custom'
+
+let g:LanguageClient_serverCommands = {
+    \ 'rust': ['~/.cargo/bin/rls'],
+    \ 'python': ['/usr/local/bin/pyls'],
+    \ }
