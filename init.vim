@@ -40,17 +40,15 @@ Plug 'solarnz/thrift.vim'
 Plug 'aklt/plantuml-syntax'
 Plug 'tpope/vim-dadbod'
 Plug 'andymass/vim-matchup'
-Plug 'ncm2/ncm2'
-Plug 'roxma/nvim-yarp'
-Plug 'ncm2/ncm2-bufword'
-Plug 'ncm2/ncm2-path'
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'leafgarland/typescript-vim'
-Plug 'prabirshrestha/async.vim'
-Plug 'prabirshrestha/vim-lsp'
-Plug 'ncm2/ncm2-vim-lsp'
-Plug 'ryanolsonx/vim-lsp-python'
 Plug 'derekwyatt/vim-scala'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'tpope/vim-fugitive'
+Plug 'JuliaEditorSupport/julia-vim'
+Plug 'rgrinberg/vim-ocaml'
+Plug 'udalov/kotlin-vim'
+Plug 'rust-lang/rust.vim'
 call plug#end()
 
 " =============================================================================
@@ -59,7 +57,6 @@ call plug#end()
 let mapleader = ";"
 nnoremap <Leader>f :FZF<CR>
 nnoremap <Leader>e :e 
-nnoremap <Leader>t :TagbarOpenAutoClose<CR>
 nnoremap <Leader>c :TOC<CR>
 nnoremap <Leader>d :bd<CR>
 nnoremap <Leader>w :w<CR>
@@ -67,17 +64,32 @@ nnoremap <Leader>o :only<CR>
 nnoremap <Leader>q :q<CR>
 nnoremap <Leader>b :Buffers<CR>
 nnoremap <Leader>m :make<CR>
-nnoremap <Leader>gd :YcmCompleter GoToDefinition<CR>
-nnoremap <Leader>sd :YcmCompleter GetDoc<CR>
-nnoremap <Leader>yr :YcmCompleter RefactorRename<space>
-nnoremap <Leader>gr :YcmCompleter GoToReferences<CR>
-nnoremap <Leader>st :YcmCompleter GetType<CR>
-nnoremap <Leader>gi :YcmCompleter GoToImplementation<CR>
 nnoremap <Leader>l :ALEDetail<CR>
 nnoremap <Leader>a :Ack<Space>-w<Space><cword><CR>
 nnoremap <C-j> :wincmd j<CR> 
 nnoremap <C-k> :wincmd k<CR> 
 nnoremap <Leader>r :%DB mysql://hive@granvil01-vm0.bdauto.wandisco.com/hive<CR>
+
+" coc
+nmap <Leader>rn <Plug>(coc-rename)
+nmap <silent> so :CocList outline<CR>
+nmap <silent> gr <Plug>(coc-references)
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nnoremap <silent> H :call <SID>show_documentation()<CR>
+nmap <leader>qf  <Plug>(coc-fix-current)
+
+" Use `:Format` to format current buffer
+command! -nargs=0 Format :call CocAction('format')
+
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
 
 " Completion 
 highlight Pmenu ctermfg=15 ctermbg=0 guifg=#000000 guibg=#efefef
@@ -85,8 +97,6 @@ inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 "set completeopt-=preview
 set completeopt=noinsert,menuone,noselect
-
-autocmd BufEnter * call ncm2#enable_for_buffer()
 
 " ALE
 let g:ale_fixers = {
@@ -102,6 +112,7 @@ let g:ale_fixers = {
 \   'javascript': ['prettier'],
 \   'js': ['prettier'],
 \   'rust': ['rustfmt'],
+\   'ocaml': ['ocamlformat'],
 \}
 let g:ale_fix_on_save = 1
 let g:airline#extensions#ale#enabled = 1
@@ -171,23 +182,6 @@ let g:airline_mode_map = {
       \ }
 
 let g:plantuml_executable_script='/Users/gb/plantuml-custom'
+let g:tex_flavor = "latex"
 
-
-" lsps
-if executable('gopls')
-    au User lsp_setup call lsp#register_server({
-        \ 'name': 'gopls',
-        \ 'cmd': {server_info->['gopls', '-mode', 'stdio']},
-        \ 'whitelist': ['go'],
-        \ })
-    autocmd BufWritePre *.go LspDocumentFormatSync
-endif
-
-if executable('typescript-language-server')
-    au User lsp_setup call lsp#register_server({
-        \ 'name': 'typescript-language-server',
-        \ 'cmd': {server_info->[&shell, &shellcmdflag, 'typescript-language-server --stdio']},
-        \ 'root_uri':{server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_file_directory(lsp#utils#get_buffer_path(), 'tsconfig.json'))},
-        \ 'whitelist': ['typescript', 'typescript.tsx'],
-        \ })
-endif
+imap <C-l> <Plug>(coc-snippets-expand)
