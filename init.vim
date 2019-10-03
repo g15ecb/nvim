@@ -31,24 +31,14 @@ Plug 'w0rp/ale'
 Plug 'vim-pandoc/vim-pandoc'
 Plug 'vim-pandoc/vim-pandoc-syntax' 
 Plug 'mileszs/ack.vim'
-Plug 'majutsushi/tagbar'
 Plug 'kshenoy/vim-signature' " nice management of marks
 Plug 'airblade/vim-rooter'
 Plug 'xianzhon/vim-code-runner'
 Plug 'inside/vim-search-pulse'
 Plug 'solarnz/thrift.vim'
-Plug 'aklt/plantuml-syntax'
-Plug 'tpope/vim-dadbod'
-Plug 'andymass/vim-matchup'
-Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'leafgarland/typescript-vim'
 Plug 'derekwyatt/vim-scala'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'tpope/vim-fugitive'
-Plug 'JuliaEditorSupport/julia-vim'
-Plug 'rgrinberg/vim-ocaml'
-Plug 'udalov/kotlin-vim'
-Plug 'rust-lang/rust.vim'
 call plug#end()
 
 " =============================================================================
@@ -68,7 +58,6 @@ nnoremap <Leader>l :ALEDetail<CR>
 nnoremap <Leader>a :Ack<Space>-w<Space><cword><CR>
 nnoremap <C-j> :wincmd j<CR> 
 nnoremap <C-k> :wincmd k<CR> 
-nnoremap <Leader>r :%DB mysql://hive@granvil01-vm0.bdauto.wandisco.com/hive<CR>
 
 " coc
 nmap <Leader>rn <Plug>(coc-rename)
@@ -112,7 +101,6 @@ let g:ale_fixers = {
 \   'javascript': ['prettier'],
 \   'js': ['prettier'],
 \   'rust': ['rustfmt'],
-\   'ocaml': ['ocamlformat'],
 \}
 let g:ale_fix_on_save = 1
 let g:airline#extensions#ale#enabled = 1
@@ -138,12 +126,6 @@ let g:airline_section_y='' " file encoding
 " the below denote warnings etc that linters flag. 
 let g:airline_section_error='' 
 let g:airline_section_warning=''
-"let g:airline#extensions#tagbar#flags = 'f'
-let g:airline#extensions#tagbar#flags = 's'
-"let g:airline#extensions#tagbar#flags = 'p'
-" Tag bar stuff for airline
-let g:airline#extensions#tagbar#enabled = 1
-au VimEnter * let g:airline_section_x = airline#section#create_right(['tagbar']) | :AirlineRefresh
 
 " marker components to point out the root of a project
 let g:rooter_patterns = ['makefile', 'Rakefile', 'gradlew', '.git/', 'pom.xml']
@@ -156,10 +138,6 @@ let g:CodeRunnerCommandMap = {
       \ 'cpp' : 'clang++ -std=c++14 $fileName -o $fileNameWithoutExt && ./$fileNameWithoutExt',
       \}
 let g:code_runner_output_window_size=10
-
-au BufRead *.sql set filetype=mysql
-
-let g:tagbar_vertical=100
 
 " shortform abbreviations for the current mode
 let g:airline_mode_map = {
@@ -181,7 +159,8 @@ let g:airline_mode_map = {
       \ 'V'  : 'V',
       \ }
 
-let g:plantuml_executable_script='/Users/gb/plantuml-custom'
 let g:tex_flavor = "latex"
 
 imap <C-l> <Plug>(coc-snippets-expand)
+
+au BufRead,BufNewFile *.sbt set filetype=scala
