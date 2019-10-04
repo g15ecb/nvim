@@ -26,19 +26,19 @@ call plug#begin()
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'easymotion/vim-easymotion'
-Plug 'vim-airline/vim-airline'
-Plug 'w0rp/ale'
 Plug 'vim-pandoc/vim-pandoc'
 Plug 'vim-pandoc/vim-pandoc-syntax' 
 Plug 'mileszs/ack.vim'
 Plug 'kshenoy/vim-signature' " nice management of marks
-Plug 'airblade/vim-rooter'
+"Plug 'airblade/vim-rooter'
 Plug 'xianzhon/vim-code-runner'
 Plug 'inside/vim-search-pulse'
-Plug 'solarnz/thrift.vim'
-Plug 'leafgarland/typescript-vim'
 Plug 'derekwyatt/vim-scala'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'itchyny/lightline.vim'
+Plug 'tpope/vim-fugitive'
+Plug 'solarnz/thrift.vim'
+Plug 'uarun/vim-protobuf'
 call plug#end()
 
 " =============================================================================
@@ -87,27 +87,6 @@ inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 "set completeopt-=preview
 set completeopt=noinsert,menuone,noselect
 
-" ALE
-let g:ale_fixers = {
-\   'java': ['google_java_format'],
-\   'c': ['clang-format'],
-\   'h': ['clang-format'],
-\   'c++': ['clang-format'],
-\   'cpp': ['clang-format'],
-\   'python': ['isort', 'black'],
-\   'markdown': ['prettier'],
-\   'pandoc': ['prettier'],
-\   'json': ['prettier'],
-\   'javascript': ['prettier'],
-\   'js': ['prettier'],
-\   'rust': ['rustfmt'],
-\}
-let g:ale_fix_on_save = 1
-let g:airline#extensions#ale#enabled = 1
-" to stop pep8 based linters from complaining as black uses 88 as line length
-let g:ale_python_black_options = '-l 79'
-let g:ale_javascript_prettier_options = '--prose-wrap always'
-
 " Ag
 if executable('ag')
   " w = match whole words
@@ -117,18 +96,8 @@ endif
 " Pandoc
 let g:pandoc#modules#disabled = ["folding"]
 
-" Airline 
-let g:airline_section_b='' " vcs info
-let g:airline_section_x='' " filetype
-let g:airline_section_z='%{line("$")}:%{col(".")}'
-let g:airline_section_c='%t'
-let g:airline_section_y='' " file encoding
-" the below denote warnings etc that linters flag. 
-let g:airline_section_error='' 
-let g:airline_section_warning=''
-
 " marker components to point out the root of a project
-let g:rooter_patterns = ['makefile', 'Rakefile', 'gradlew', '.git/', 'pom.xml']
+"let g:rooter_patterns = ['makefile', 'gradlew', '.git/', 'pom.xml', 'build.sbt']
 
 " Code runner
 let g:CodeRunnerCommandMap = {
@@ -139,28 +108,18 @@ let g:CodeRunnerCommandMap = {
       \}
 let g:code_runner_output_window_size=10
 
-" shortform abbreviations for the current mode
-let g:airline_mode_map = {
-      \ '__' : '-',
-      \ 'c'  : 'C',
-      \ 'i'  : 'I',
-      \ 'ic' : 'I',
-      \ 'ix' : 'I',
-      \ 'n'  : 'N',
-      \ 'ni' : 'N',
-      \ 'no' : 'N',
-      \ 'R'  : 'R',
-      \ 'Rv' : 'R',
-      \ 's'  : 'S',
-      \ 'S'  : 'S',
-      \ ''   : 'S',
-      \ 't'  : 'T',
-      \ 'v'  : 'V',
-      \ 'V'  : 'V',
-      \ }
-
 let g:tex_flavor = "latex"
 
 imap <C-l> <Plug>(coc-snippets-expand)
 
 au BufRead,BufNewFile *.sbt set filetype=scala
+
+let g:lightline = {
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ],
+      \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
+      \ },
+      \ 'component_function': {
+      \   'gitbranch': 'fugitive#head'
+      \ },
+      \ }
