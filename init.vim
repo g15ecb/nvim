@@ -42,7 +42,6 @@ Plug 'w0rp/ale'
 Plug 'fidian/hexmode'
 Plug 'tpope/vim-vinegar'
 Plug 'rgrinberg/vim-ocaml'
-Plug 'hdiniz/vim-gradle'
 call plug#end()
 
 " =============================================================================
