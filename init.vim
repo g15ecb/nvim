@@ -30,7 +30,6 @@ Plug 'vim-pandoc/vim-pandoc'
 Plug 'vim-pandoc/vim-pandoc-syntax' 
 Plug 'mileszs/ack.vim'
 Plug 'kshenoy/vim-signature' " nice management of marks
-"Plug 'airblade/vim-rooter'
 Plug 'xianzhon/vim-code-runner'
 Plug 'inside/vim-search-pulse'
 Plug 'derekwyatt/vim-scala'
@@ -39,6 +38,11 @@ Plug 'itchyny/lightline.vim'
 Plug 'tpope/vim-fugitive'
 Plug 'solarnz/thrift.vim'
 Plug 'uarun/vim-protobuf'
+Plug 'w0rp/ale'
+Plug 'fidian/hexmode'
+Plug 'tpope/vim-vinegar'
+Plug 'rgrinberg/vim-ocaml'
+Plug 'hdiniz/vim-gradle'
 call plug#end()
 
 " =============================================================================
@@ -66,6 +70,7 @@ nmap <silent> gr <Plug>(coc-references)
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gh :CocFix<CR>
 nnoremap <silent> H :call <SID>show_documentation()<CR>
 nmap <leader>qf  <Plug>(coc-fix-current)
 
@@ -105,6 +110,7 @@ let g:CodeRunnerCommandMap = {
       \ 'python' : 'python3 $fileName',
       \ 'c' : 'clang -std=c11 $fileName -o $fileNameWithoutExt && ./$fileNameWithoutExt',
       \ 'cpp' : 'clang++ -std=c++14 $fileName -o $fileNameWithoutExt && ./$fileNameWithoutExt',
+      \ 'ocaml' : 'ocaml $fileName',
       \}
 let g:code_runner_output_window_size=10
 
@@ -123,3 +129,17 @@ let g:lightline = {
       \   'gitbranch': 'fugitive#head'
       \ },
       \ }
+
+" ALE
+let g:ale_fixers = {
+\   'markdown': ['prettier'],
+\   'pandoc': ['prettier'],
+\   'json': ['prettier'],
+\   'javascript': ['prettier'],
+\   'js': ['prettier'],
+\   'ocaml': ['ocamlformat'],
+\}
+let g:ale_fix_on_save = 1
+
+let g:hexmode_patterns = '*.bin,*.exe,*.dat,*.o'
+let g:hexmode_xxd_options = '-g 1' " view per byte 
