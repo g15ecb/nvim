@@ -47,6 +47,7 @@ Plug 'vim-pandoc/vim-pandoc'
 Plug 'vim-pandoc/vim-pandoc-syntax'
 Plug 'fatih/vim-go'
 Plug 'preservim/nerdtree'
+Plug 'guns/vim-clojure-static'
 call plug#end()
 
 " =============================================================================
@@ -62,7 +63,7 @@ nnoremap <Leader>o :only<CR>
 nnoremap <Leader>q :q<CR>
 nnoremap <Leader>b :Buffers<CR>
 nnoremap <Leader>m :make<CR>
-nnoremap <Leader>t :TOC<CR>
+nnoremap <Leader>t :NERDTree<CR>
 nnoremap <Leader>l :ALEDetail<CR>
 nnoremap <Leader>a :Ack<Space>-w<Space><cword><CR>
 nnoremap <C-j> :wincmd j<CR> 
