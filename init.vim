@@ -38,24 +38,19 @@ Plug 'solarnz/thrift.vim'
 Plug 'uarun/vim-protobuf'
 Plug 'fidian/hexmode'
 Plug 'vhdirk/vim-cmake'
-Plug 'derekwyatt/vim-scala'
-Plug 'rust-lang/rust.vim'
 Plug 'vim-pandoc/vim-pandoc'
 Plug 'vim-pandoc/vim-pandoc-syntax'
 Plug 'fatih/vim-go'
 Plug 'preservim/nerdtree'
-Plug 'vim-erlang/vim-erlang-runtime'
-Plug 'udalov/kotlin-vim'
 Plug 'majutsushi/tagbar'
 Plug 'tpope/vim-dispatch' " Make
 Plug 'liuchengxu/vista.vim'
-Plug 'neovimhaskell/haskell-vim'
 Plug 'morhetz/gruvbox'
 Plug 'ocaml/vim-ocaml'
-Plug 'elixir-editors/vim-elixir'
-Plug 'derekwyatt/vim-scala'
-Plug 'guns/vim-clojure-static'
-Plug 'HerringtonDarkholme/yats.vim'
+Plug 'udalov/javap-vim'
+Plug 'tfnico/vim-gradle'
+Plug 'tpope/vim-fugitive'
+Plug 'airblade/vim-gitgutter'
 call plug#end()
 
 
@@ -85,9 +80,10 @@ nmap <silent> - :cprevious<CR>
 
 " coc
 nmap <Leader>rn <Plug>(coc-rename)
-" nmap <silent> so :CocList outline<CR>
-nmap <silent> so :Vista<CR>
+nmap <silent> so :CocList outline<CR>
+nmap <silent> sl :Vista<CR>
 nmap <silent> gr <Plug>(coc-references)
+nmap <silent> [[ :CocCommand java.projectConfiguration.update<CR>
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
@@ -126,7 +122,6 @@ let g:pandoc#modules#disabled = ["folding"]
 let g:CodeRunnerCommandMap = {
       \ 'java' : 'java -ea $fileName',
       \ 'python' : 'python3 $fileName',
-      \ 'kotlin' : 'kotlinc -J-ea -script $fileName',
       \ 'scala' : 'scalac $filename && scala $fileNameWithoutExt',
       \}
 let g:code_runner_output_window_size=10
@@ -139,17 +134,23 @@ function! LightlineFilename()
   return expand('%')
 endfunction
 
+function! NearestMethodOrFunction() abort
+  return get(b:, 'vista_nearest_method_or_function', '')
+endfunction
+autocmd VimEnter * call vista#RunForNearestMethodOrFunction()
+ 
 let g:lightline = {
       \ 'component_function': {
-      \   'filename': 'LightlineFilename'
+      \   'filename': 'LightlineFilename',
+      \   'vistanearest': 'NearestMethodOrFunction'
       \ },
       \ 'active': {
       \   'left': [ [ 'mode', 'paste' ],
-      \             [ 'readonly', 'filename', 'method', 'modified' ] ],
+      \             [ 'readonly', 'filename', 'method', 'modified', 'vistanearest' ] ],
       \   'right': [ [ 'lineinfo' ],
       \              [ 'percent' ],
       \              [ 'fileencoding' ] ]
-      \ },
+      \ }
       \ }
 
 
@@ -162,12 +163,6 @@ let g:go_code_completion_enabled = 0
 autocmd FileType tex setlocal spell
 let g:dispatch_no_maps = 1
 
-au FileType kotlin setlocal makeprg=kotlinc\ -jvm-target\ 1.8\ -Werror\ %\ -include-runtime\ -d\ %.jar
-au FileType java setlocal makeprg=javac\ -Xlint\:all\ %
-au FileType pandoc setlocal makeprg=pandoc\ %\ -o\ %\.pdf\ --number-sections\ --toc\ --pdf-engine=xelatex\ -V\ 'mainfont:Times'\ -V\ 'monofont:Monaco'
-au BufRead,BufNewFile *.ditaa setlocal makeprg=ditaa\ %
-au BufRead,BufNewFile *.hs setlocal makeprg=stack\ build
-
 if executable('ag')
   let g:ackprg = "ag -w --ignore='*.rst' --ignore='*Test*' --ignore='*.sql' --ignore='*.htm*' --ignore='*.xml' --ignore='target' --ignore='build' --vimgrep"
 endif
@@ -176,5 +171,13 @@ let g:fzf_preview_window = ''
 
 let g:vista_default_executive = 'coc'
 let g:vista#renderer#enable_icon = 0
+
+autocmd FileType ocaml setlocal shiftwidth=2 tabstop=2 softtabstop=2 expandtab
+
+au FileType ocaml setlocal makeprg=dune\ build
+au FileType java setlocal makeprg=gradle\ compileJava
+au FileType pandoc setlocal makeprg=pandoc\ %\ -o\ %\.pdf\ --number-sections\ --toc\ --pdf-engine=xelatex\ -V\ 'mainfont:Times'\ -V\ 'monofont:Monaco'
+au BufRead,BufNewFile *.ditaa setlocal makeprg=ditaa\ %
+au BufRead,BufNewFile *.hs setlocal makeprg=stack\ build
 
 colorscheme gruvbox
