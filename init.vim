@@ -42,15 +42,20 @@ Plug 'vim-pandoc/vim-pandoc'
 Plug 'vim-pandoc/vim-pandoc-syntax'
 Plug 'fatih/vim-go'
 Plug 'preservim/nerdtree'
-Plug 'majutsushi/tagbar'
 Plug 'tpope/vim-dispatch' " Make
 Plug 'liuchengxu/vista.vim'
 Plug 'morhetz/gruvbox'
 Plug 'ocaml/vim-ocaml'
 Plug 'udalov/javap-vim'
-Plug 'tfnico/vim-gradle'
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
+Plug 'derekwyatt/vim-scala'
+Plug 'tpope/vim-fugitive'
+Plug 'junegunn/gv.vim'
+Plug 'liuchengxu/graphviz.vim'
+Plug 'udalov/kotlin-vim'
+Plug 'preservim/tagbar'
+Plug 'tpope/vim-commentary'
 call plug#end()
 
 
@@ -76,8 +81,6 @@ nnoremap <C-k> :wincmd k<CR>
 nmap <silent> + :cnext<CR>
 nmap <silent> - :cprevious<CR>
 
-"nmap <silent> so :TagbarOpenAutoClose<CR>
-
 " coc
 nmap <Leader>rn <Plug>(coc-rename)
 nmap <silent> so :CocList outline<CR>
@@ -88,6 +91,7 @@ nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gh :CocFix<CR>
+nmap <silent> gl :CocCommand metals.build-import<CR>
 nnoremap <silent> H :call <SID>show_documentation()<CR>
 nmap <leader>qf  <Plug>(coc-fix-current)
 
@@ -121,32 +125,25 @@ let g:pandoc#modules#disabled = ["folding"]
 " Code runner
 let g:CodeRunnerCommandMap = {
       \ 'java' : 'java -ea $fileName',
-      \ 'python' : 'python3 $fileName',
-      \ 'scala' : 'scalac $filename && scala $fileNameWithoutExt',
+      \ 'python' : 'python $fileName',
+      \ 'scala' : 'scala $fileName',
+      \ 'ocaml' : 'ocaml $fileName',
       \}
 let g:code_runner_output_window_size=10
 
 let g:tex_flavor = "latex"
 
-"imap <C-l> <Plug>(coc-snippets-expand)
-
 function! LightlineFilename()
   return expand('%')
 endfunction
 
-function! NearestMethodOrFunction() abort
-  return get(b:, 'vista_nearest_method_or_function', '')
-endfunction
-autocmd VimEnter * call vista#RunForNearestMethodOrFunction()
- 
 let g:lightline = {
       \ 'component_function': {
-      \   'filename': 'LightlineFilename',
-      \   'vistanearest': 'NearestMethodOrFunction'
+      \   'filename': 'LightlineFilename'
       \ },
       \ 'active': {
       \   'left': [ [ 'mode', 'paste' ],
-      \             [ 'readonly', 'filename', 'method', 'modified', 'vistanearest' ] ],
+      \             [ 'readonly', 'filename', 'modified' ] ],
       \   'right': [ [ 'lineinfo' ],
       \              [ 'percent' ],
       \              [ 'fileencoding' ] ]
@@ -175,9 +172,12 @@ let g:vista#renderer#enable_icon = 0
 autocmd FileType ocaml setlocal shiftwidth=2 tabstop=2 softtabstop=2 expandtab
 
 au FileType ocaml setlocal makeprg=dune\ build
+au FileType kotlin setlocal makeprg=./gradlew\ build
+au FileType scala setlocal makeprg=sbt\ compile
+au FileType cpp setlocal makeprg=clang++\ -std=c++17\ -g\ -Wall\ %\ -o\ %.exe
 au FileType java setlocal makeprg=gradle\ compileJava
-au FileType pandoc setlocal makeprg=pandoc\ %\ -o\ %\.pdf\ --number-sections\ --toc\ --pdf-engine=xelatex\ -V\ 'mainfont:Times'\ -V\ 'monofont:Monaco'
-au BufRead,BufNewFile *.ditaa setlocal makeprg=ditaa\ %
-au BufRead,BufNewFile *.hs setlocal makeprg=stack\ build
+au FileType pandoc setlocal makeprg=pandoc\ %\ -o\ %\.pdf\ --number-sections\ --toc\ --pdf-engine=xelatex\ -V\ 'mainfont:Arial'\ -V\ 'monofont:Monaco'
+
+let g:coc_filetype_map = {'pandoc': 'markdown'}
 
 colorscheme gruvbox

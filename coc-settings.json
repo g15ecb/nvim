@@ -5,32 +5,27 @@
     "yaml",
     "json",
     "markdown",
+    "java",
+    "scala",
     "c",
-    "cpp"
+    "cpp",
+    "kotlin",
+    "pandoc",
+    "markdown"
   ],
-  "coc.preferences.currentFunctionSymbolAutoUpdate": true,
   "clangd.path": "/usr/local/opt/llvm/bin/clangd",
-  "python.jediEnabled": false,
+  "prettier.proseWrap": "always",
   "languageserver": {
     "golang": {
       "command": "gopls",
-      "rootPatterns": [
-        "go.mod"
-      ],
+      "rootPatterns": ["go.mod"],
       "disableWorkspaceFolders": true,
-      "filetypes": [
-        "go"
-      ]
+      "filetypes": ["go"]
     },
-    "ocaml": {
-      "command": "ocaml-language-server",
-      "args": [
-        "--stdio"
-      ],
-      "filetypes": [
-        "ocaml",
-        "reason"
-      ]
+    "ocaml-lsp": {
+      "command": "opam",
+      "args": ["config", "exec", "--", "ocamllsp"],
+      "filetypes": ["ocaml", "reason"]
     }
   }
 }
