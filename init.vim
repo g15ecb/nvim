@@ -56,6 +56,10 @@ Plug 'liuchengxu/graphviz.vim'
 Plug 'udalov/kotlin-vim'
 Plug 'preservim/tagbar'
 Plug 'tpope/vim-commentary'
+Plug 'sebdah/vim-delve'
+Plug 'rust-lang/rust.vim'
+Plug 'leafgarland/typescript-vim'
+Plug 'vim-python/python-syntax'
 call plug#end()
 
 
@@ -176,8 +180,11 @@ au FileType kotlin setlocal makeprg=./gradlew\ build
 au FileType scala setlocal makeprg=sbt\ compile
 au FileType cpp setlocal makeprg=clang++\ -std=c++17\ -g\ -Wall\ %\ -o\ %.exe
 au FileType java setlocal makeprg=gradle\ compileJava
-au FileType pandoc setlocal makeprg=pandoc\ %\ -o\ %\.pdf\ --number-sections\ --toc\ --pdf-engine=xelatex\ -V\ 'mainfont:Arial'\ -V\ 'monofont:Monaco'
+au FileType pandoc setlocal makeprg=pandoc\ %\ -o\ %\.pdf\ --variable\ urlcolor=blue\ --number-sections\ --toc\ --toc-depth=1\ --pdf-engine=xelatex\ -V\ 'mainfont:Arial'\ -V\ 'monofont:Monaco'
 
 let g:coc_filetype_map = {'pandoc': 'markdown'}
+
+autocmd BufWritePre *.py :CocCommand pyright.organizeimports
+let g:python_highlight_all=1
 
 colorscheme gruvbox

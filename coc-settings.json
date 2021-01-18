@@ -5,16 +5,17 @@
     "yaml",
     "json",
     "markdown",
-    "java",
     "scala",
     "c",
     "cpp",
-    "kotlin",
     "pandoc",
-    "markdown"
+    "markdown",
+    "python"
   ],
   "clangd.path": "/usr/local/opt/llvm/bin/clangd",
   "prettier.proseWrap": "always",
+  "python.formatting.provider": "black",
+  "codeLens.enable": true,
   "languageserver": {
     "golang": {
       "command": "gopls",
